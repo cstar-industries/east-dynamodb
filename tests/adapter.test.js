@@ -1,11 +1,10 @@
-import fs from 'fs';
+import describe from './describe';
 
-import Adapter from '../lib';
+const defaultConfig = {
+  tableName: 'east-dynamodb-test',
+  dynamoDB: {
+    endpoint: 'http://localhost:8000'
+  }
+};
 
-describe('Test DynamoDB Adapter', () => {
-  test('templates exist', () => {
-    const adapter = new Adapter();
-    const templatePath = adapter.getTemplatePath();
-    expect(fs.existsSync(templatePath)).toBeTrue();
-  });
-});
+describe('default', defaultConfig);
