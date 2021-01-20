@@ -1,0 +1,35 @@
+{
+  "name": "east-dynamodb",
+  "version": "0.1.0",
+  "description": "AWS DynamoDB adpater for east migration tool",
+  "type": "module",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\"https://github.com/cstar-industries/east-dynamodb.git\""
+  },
+  "keywords": [
+    "database",
+    "db",
+    "migrate",
+    "migration",
+    "aws",
+    "dynamoodb",
+    "ddb",
+    "east",
+    "adapter"
+  ],
+  "author": "Charles Francoise <charles.francoise@gmail.com>",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@cstar-industries/eslint-config": "^1.2.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1"
+  }
+}
