@@ -7,6 +7,7 @@ module.exports = {
     '@cstar-industries'
   ],
   parserOptions: { 
+    sourceType: 'module',
     ecmaVersion: '2020'
   },
   overrides: [
