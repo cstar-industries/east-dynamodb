@@ -5,7 +5,7 @@
   "type": "module",
   "main": "lib/index.js",
   "scripts": {
-    "test": "test"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -24,12 +24,20 @@
   ],
   "author": "Charles Francoise <charles.francoise@gmail.com>",
   "license": "Apache-2.0",
+  "peerDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.3.0"
+  },
   "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.3.0",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "@cstar-industries/eslint-config": "^1.2.2",
+    "babel-jest": "^26.6.3",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
     "jest": "^26.6.3",
+    "jest-extended": "^0.11.5",
     "prettier": "^2.2.1"
   }
 }
