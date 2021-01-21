@@ -124,4 +124,42 @@ describe('Test DynamoDB Adapter', () => {
     const names = await adapter.getExecutedMigrationNames();
     expect(names).toBeArrayOfSize(2);
   });
+
+  test('rollback migrations', async () => {
+    const mgr = new MigrationManager();
+
+    const eastConfig = { dir: path.join(__dirname, 'migrations'), adapter: './lib', ...config };
+    await mgr.configure(eastConfig);
+    await mgr.connect();
+    await mgr.rollback({});
+
+    const client = new DynamoDBClient(config.dynamoDB);
+
+    let cmd = new GetItemCommand({
+      TableName: config.tableName,
+      Key: helloWorld
+    });
+    let res = await client.send(cmd);
+    expect(res.Item).toBeUndefined();
+
+    cmd = new QueryCommand({
+      TableName: config.tableName,
+      KeyConditionExpression: '#pk = :pk',
+      ExpressionAttributeNames: {
+        '#pk': 'PK'
+      },
+      ExpressionAttributeValues: marshall({
+        ':pk': 'ITEM'
+      })
+    });
+    res = await client.send(cmd);
+    expect(res.Items).toBeArrayOfSize(0);
+  });
+
+  test('getExecutedMigrationNames (after rollback)', async () => {
+    const adapter = new Adapter(config);
+    adapter.connect();
+    const names = await adapter.getExecutedMigrationNames();
+    expect(names).toBeArrayOfSize(0);
+  });
 });
