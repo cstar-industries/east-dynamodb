@@ -66,7 +66,8 @@ export default (suiteName, config) => {
     test('apply migrations', async () => {
       const mgr = new MigrationManager();
 
-      await mgr.configure({ ...config, dir: path.join(__dirname, 'migrations'), adapter: './lib' });
+      const eastConfig = { dir: path.join(__dirname, 'migrations'), adapter: './lib', ...config };
+      await mgr.configure(eastConfig);
       await mgr.connect();
       await mgr.migrate({});
 

@@ -1,4 +1,4 @@
-import describe from './describe';
+import describeTestSuite from './describe-test-suite';
 
 const defaultConfig = {
   tableName: 'east-dynamodb-test',
@@ -7,4 +7,4 @@ const defaultConfig = {
   }
 };
 
-describe('default', defaultConfig);
+describeTestSuite('default', defaultConfig);
