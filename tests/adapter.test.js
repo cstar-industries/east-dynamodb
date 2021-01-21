@@ -1,7 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 
-import { DynamoDBClient, CreateTableCommand, DeleteTableCommand, GetItemCommand } from '@aws-sdk/client-dynamodb';
+import {
+  DynamoDBClient,
+  CreateTableCommand,
+  DeleteTableCommand,
+  GetItemCommand,
+  QueryCommand
+} from '@aws-sdk/client-dynamodb';
 import { marshall } from '@aws-sdk/util-dynamodb';
 import { MigrationManager } from 'east';
 
@@ -27,11 +33,23 @@ describe('Test DynamoDB Adapter', () => {
       TableName: config.tableName,
       AttributeDefinitions: [
         { AttributeName: 'PK', AttributeType: 'S' },
-        { AttributeName: 'SK', AttributeType: 'S' }
+        { AttributeName: 'SK', AttributeType: 'S' },
+        { AttributeName: 'migration', AttributeType: 'S' },
+        { AttributeName: 'migration_name', AttributeType: 'S' }
       ],
       KeySchema: [
         { AttributeName: 'PK', KeyType: 'HASH' },
         { AttributeName: 'SK', KeyType: 'RANGE' }
+      ],
+      GlobalSecondaryIndexes: [
+        {
+          IndexName: 'Migrations',
+          KeySchema: [
+            { AttributeName: 'migration', KeyType: 'HASH' },
+            { AttributeName: 'migration_name', KeyType: 'RANGE' }
+          ],
+          Projection: { ProjectionType: 'KEYS_ONLY' }
+        }
       ],
       BillingMode: 'PAY_PER_REQUEST'
     });
@@ -78,18 +96,32 @@ describe('Test DynamoDB Adapter', () => {
     await mgr.migrate({});
 
     const client = new DynamoDBClient(config.dynamoDB);
-    const cmd = new GetItemCommand({
+
+    let cmd = new GetItemCommand({
       TableName: config.tableName,
       Key: helloWorld
     });
-    const res = await client.send(cmd);
+    let res = await client.send(cmd);
     expect(res.Item).toEqual(helloWorld);
+
+    cmd = new QueryCommand({
+      TableName: config.tableName,
+      KeyConditionExpression: '#pk = :pk',
+      ExpressionAttributeNames: {
+        '#pk': 'PK'
+      },
+      ExpressionAttributeValues: marshall({
+        ':pk': 'ITEM'
+      })
+    });
+    res = await client.send(cmd);
+    expect(res.Items).toBeArrayOfSize(10);
   });
 
   test('getExecutedMigrationNames (after migrations)', async () => {
     const adapter = new Adapter(config);
     adapter.connect();
     const names = await adapter.getExecutedMigrationNames();
-    expect(names).toBeArrayOfSize(1);
+    expect(names).toBeArrayOfSize(2);
   });
 });
