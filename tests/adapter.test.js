@@ -33,23 +33,11 @@ describe('Test DynamoDB Adapter', () => {
       TableName: config.tableName,
       AttributeDefinitions: [
         { AttributeName: 'PK', AttributeType: 'S' },
-        { AttributeName: 'SK', AttributeType: 'S' },
-        { AttributeName: 'migration', AttributeType: 'S' },
-        { AttributeName: 'migration_name', AttributeType: 'S' }
+        { AttributeName: 'SK', AttributeType: 'S' }
       ],
       KeySchema: [
         { AttributeName: 'PK', KeyType: 'HASH' },
         { AttributeName: 'SK', KeyType: 'RANGE' }
-      ],
-      GlobalSecondaryIndexes: [
-        {
-          IndexName: 'Migrations',
-          KeySchema: [
-            { AttributeName: 'migration', KeyType: 'HASH' },
-            { AttributeName: 'migration_name', KeyType: 'RANGE' }
-          ],
-          Projection: { ProjectionType: 'KEYS_ONLY' }
-        }
       ],
       BillingMode: 'PAY_PER_REQUEST'
     });
