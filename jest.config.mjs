@@ -1,5 +1,5 @@
 export default {
   coverageDirectory: 'coverage',
-  setupFilesAfterEnv: ['jest-extended', './tests/setup.js'],
+  setupFilesAfterEnv: ['jest-extended'],
   testEnvironment: 'node'
 };

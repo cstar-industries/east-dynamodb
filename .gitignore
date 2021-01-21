@@ -53,3 +53,6 @@ typings/
 ### EOF Node ###
 
 .DS_Store
+
+# Build output
+dist/

@@ -2,14 +2,15 @@
   "name": "east-dynamodb",
   "version": "0.1.0",
   "description": "AWS DynamoDB adpater for east migration tool",
-  "type": "module",
-  "main": "lib/index.js",
+  "main": "dist/index.cjs",
   "scripts": {
-    "test": "jest"
+    "lint": "eslint --max-warnings=0 .",
+    "test": "jest",
+    "build": "rollup -c"
   },
   "repository": {
     "type": "git",
-    "url": "\"https://github.com/cstar-industries/east-dynamodb.git\""
+    "url": "https://github.com/cstar-industries/east-dynamodb.git"
   },
   "keywords": [
     "database",
@@ -28,20 +29,26 @@
     "@aws-sdk/client-dynamodb": "^3.3.0",
     "@aws-sdk/util-dynamodb": "^3.3.0"
   },
+  "dependencies": {
+    "@babel/runtime": "^7.12.5"
+  },
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.3.0",
     "@aws-sdk/util-dynamodb": "^3.3.0",
     "@babel/core": "^7.12.10",
+    "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@cstar-industries/eslint-config": "^1.2.2",
+    "@rollup/plugin-babel": "^5.2.2",
     "babel-jest": "^26.6.3",
-    "core-js": "^3.8.3",
     "east": "^2.0.1",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
     "jest": "^26.6.3",
     "jest-extended": "^0.11.5",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "rollup": "^2.37.1",
+    "rollup-plugin-terser": "^7.0.2"
   }
 }
