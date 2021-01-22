@@ -2,12 +2,17 @@
   "name": "east-dynamodb",
   "version": "0.1.0",
   "description": "AWS DynamoDB adpater for east migration tool",
-  "main": "dist/index.cjs",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "lib"
+  ],
   "scripts": {
     "lint": "eslint --max-warnings=0 .",
     "test": "jest",
     "build": "rollup -c"
   },
+  "homepage": "https://github.com/cstar-industries/east-dynamodb",
   "repository": {
     "type": "git",
     "url": "https://github.com/cstar-industries/east-dynamodb.git"
