@@ -20,7 +20,7 @@ jobs:
           docker_layer_caching: true
       - run: docker run --name=dynamodb -d -p 8000:8000 amazon/dynamodb-local
       - node/install-packages
-      - run: docker run --rm --mount src=$PWD,dst=/home/circleci/project cimg/node:14.15 npm run test
+      - run: docker run --rm --mount src=$PWD,dst=/home/circleci/project,type=bind cimg/node:14.15 npm run test
   build:
     executor:
       name: node/default
