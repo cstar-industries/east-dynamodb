@@ -1,0 +1,65 @@
+version: 2.1
+orbs:
+  node: circleci/node@4.1.0
+jobs:
+  lint:
+    executor:
+      name: node/default
+      tag: "14.15"
+    steps:
+      - checkout
+      - node/install-packages
+      - run: npm run lint
+  test-unit:
+    executor:
+      name: node/default
+      tag: "14.15"
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: docker run -d -p 8000:8000 amazon/dynamodb-local
+      - node/install-packages
+      - run: npm run test
+  build:
+    executor:
+      name: node/default
+      tag: "14.15"
+    steps:
+      - checkout
+      - node/install-packages
+      - run: npm run build
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - "*"
+  test-e2e:
+    executor:
+      name: node/default
+      tag: "14.15"
+    working_directory: ~/e2e
+    steps:
+      - attach_workspace:
+          at: ~/east-dynamodb
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: docker run -d -p 8000:8000 amazon/dynamodb-local
+      - run: cd ~/east-dynamodb && npm link
+      - run: npm init -y
+      - run: "npm install 'east' '@aws-sdk/client-dynamodb@^3.3.0' '@aws-sdk/util-dynamodb@^3.3.0'"
+      - run: npm link east-dynamodb
+      - run: cp ~/east-dynamodb/.circleci/.eastrc ./.eastrc && cp -R ~/east-dynamodb/.circleci/tests/migrations_default ./migrations
+      - run: npx east migrate
+      - run: npx east rollback
+workflows:
+  workflow:
+    jobs:
+      - lint
+      - test-unit
+      - build:
+          requires:
+            - lint
+            - test-unit
+      - test-e2e:
+          requires:
+            - build
