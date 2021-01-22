@@ -96,6 +96,15 @@ jobs:
       - run: cp ~/east-dynamodb/.circleci/.eastrc ./.eastrc && cp -R ~/east-dynamodb/tests/migrations_default ./migrations
       - run: npx east migrate
       - run: npx east rollback
+  publish:
+    executor:
+      name: node/default
+      tag: "14.15"
+    working_directory: ~/east-dynamodb
+    steps:
+      - attach_workspace:
+          at: ~/east-dynamodb
+      - run: npm publish --dry-run
 workflows:
   workflow:
     jobs:
@@ -108,3 +117,6 @@ workflows:
       - test-e2e:
           requires:
             - build
+      - publish:
+          requires:
+            - test-e2e
