@@ -20,7 +20,8 @@ commands:
       - run:
           name: Run DynamoDB
           working_directory: << parameters.dest >>
-          command: nohup java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb &
+          background: true
+          command: java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
 jobs:
   lint:
     executor:
