@@ -92,7 +92,7 @@ jobs:
       - run: npm init -y
       - run: "npm install 'east' '@aws-sdk/client-dynamodb@^3.3.0' '@aws-sdk/util-dynamodb@^3.3.0'"
       - run: npm link east-dynamodb
-      - run: cp ~/east-dynamodb/.circleci/.eastrc ./.eastrc && cp -R ~/east-dynamodb/.circleci/tests/migrations_default ./migrations
+      - run: cp ~/east-dynamodb/.circleci/.eastrc ./.eastrc && cp -R ~/east-dynamodb/tests/migrations_default ./migrations
       - run: npx east migrate
       - run: npx east rollback
 workflows:
