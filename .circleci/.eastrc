@@ -1,5 +1,6 @@
 {
   "adapter": "east-dynamodb",
+  "es-modules": true,
   "tableName": "east-dynamodb-test",
   "dynamoDB": {
     "region": "ddblocal",
