@@ -17,7 +17,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Run DynamoDB local
+          name: Install DynamoDB local
           working_directory: /tmp
           command: |
             sudo apt update
@@ -32,7 +32,7 @@ jobs:
             AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
             AWS_DEFAULT_REGION: ddblocal
           command: |
-            pushd /tmp
+            pushd /tmp/dynamodb_local_latest
             java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb &
             popd
             npm run test
