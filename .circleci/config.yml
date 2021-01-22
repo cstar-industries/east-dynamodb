@@ -16,11 +16,26 @@ jobs:
       tag: "14.15"
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run: docker run --name=dynamodb -d -p 8000:8000 amazon/dynamodb-local
+      - run:
+          name: Run DynamoDB local
+          working_directory: /tmp
+          command: |
+            sudo apt update
+            sudo apt install -y openjdk-8-jre-headless
+            curl -O https://s3.us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz
+            tar xzvf dynamodb_local_latest.tar.gz --one-top-level
       - node/install-packages
-      - run: docker run --rm --mount src=/home/circleci/project,dst=/home/circleci/project,type=bind cimg/node:14.15 npm run test
+      - run:
+          name: Run tests
+          environment:
+            AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
+            AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+            AWS_DEFAULT_REGION: ddblocal
+          command: |
+            pushd /tmp
+            java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb &
+            popd
+            npm run test
   build:
     executor:
       name: node/default
