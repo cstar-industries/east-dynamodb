@@ -67,6 +67,7 @@ jobs:
       AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
       AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
       AWS_DEFAULT_REGION: ddblocal
+      AWS_PAGER: ""
     steps:
       - attach_workspace:
           at: ~/east-dynamodb
