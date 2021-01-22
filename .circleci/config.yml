@@ -7,7 +7,7 @@ commands:
     parameters:
       dest:
         type: string
-        default: /dynamodb-local
+        default: /tmp/dynamodb-local
     steps:
       - run:
           name: Install DynamoDB
