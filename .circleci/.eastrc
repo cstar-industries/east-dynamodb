@@ -1,7 +1,8 @@
 {
   "adapter": "east-dynamodb",
-  "tableName": "east-dynamodb-test-e2e",
+  "tableName": "east-dynamodb-test",
   "dynamoDB": {
+    "region": "ddblocal",
     "endpoint": "http://localhost:8000"
   }
 }
