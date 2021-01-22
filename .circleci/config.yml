@@ -2,21 +2,25 @@ version: 2.1
 orbs:
   node: circleci/node@4.1.0
 commands:
-  install-dynamodb:
-    description: Install DynamoDB local
+  start-dynamodb-local:
+    description: Install DynamoDB Local and run in the background
     parameters:
       dest:
         type: string
         default: /dynamodb-local
     steps:
       - run:
-          name: Install DynamoDB local
+          name: Install DynamoDB
           working_directory: << parameters.dest >>
           command: |
             sudo apt update
             sudo apt install -y openjdk-8-jre-headless
             curl -O https://s3.us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz
             tar xzvf dynamodb_local_latest.tar.gz
+      - run:
+          name: Run DynamoDB
+          working_directory: << parameters.dest >>
+          command: nohup java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb &
 jobs:
   lint:
     executor:
@@ -32,8 +36,7 @@ jobs:
       tag: "14.15"
     steps:
       - checkout
-      - install-dynamodb:
-          dest: /tmp/dynamodb-local
+      - start-dynamodb-local
       - node/install-packages
       - run:
           name: Run tests
@@ -41,11 +44,7 @@ jobs:
             AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
             AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
             AWS_DEFAULT_REGION: ddblocal
-          command: |
-            pushd /tmp/dynamodb-local
-            java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb &
-            popd
-            npm run test
+          command: npm run test
   build:
     executor:
       name: node/default
@@ -63,9 +62,14 @@ jobs:
       name: node/default
       tag: "14.15"
     working_directory: ~/e2e
+    environment:
+      AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
+      AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      AWS_DEFAULT_REGION: ddblocal
     steps:
       - attach_workspace:
           at: ~/east-dynamodb
+      - start-dynamodb-local
       - run:
           name: Install AWS CLI
           working_directory: /tmp
