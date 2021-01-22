@@ -1,6 +1,22 @@
 version: 2.1
 orbs:
   node: circleci/node@4.1.0
+commands:
+  install-dynamodb:
+    description: Install DynamoDB local
+    parameters:
+      dest:
+        type: string
+        default: /dynamodb-local
+    steps:
+      - run:
+          name: Install DynamoDB local
+          working_directory: << parameters.dest >>
+          command: |
+            sudo apt update
+            sudo apt install -y openjdk-8-jre-headless
+            curl -O https://s3.us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz
+            tar xzvf dynamodb_local_latest.tar.gz
 jobs:
   lint:
     executor:
@@ -16,14 +32,8 @@ jobs:
       tag: "14.15"
     steps:
       - checkout
-      - run:
-          name: Install DynamoDB local
-          working_directory: /tmp
-          command: |
-            sudo apt update
-            sudo apt install -y openjdk-8-jre-headless
-            curl -O https://s3.us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz
-            tar xzvf dynamodb_local_latest.tar.gz --one-top-level
+      - install-dynamodb:
+          dest: /tmp/dynamodb-local
       - node/install-packages
       - run:
           name: Run tests
