@@ -10,6 +10,7 @@ describeTestSuite(
       partitionKey: 'Type',
       sortKey: 'Name',
       dynamoDB: {
+        region: 'ddblocal',
         endpoint: 'http://localhost:8000'
       }
     }

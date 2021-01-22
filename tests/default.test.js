@@ -8,6 +8,7 @@ describeTestSuite(
     adapterConfig: {
       tableName: 'east-dynamodb-test-default',
       dynamoDB: {
+        region: 'ddblocal',
         endpoint: 'http://localhost:8000'
       }
     }
