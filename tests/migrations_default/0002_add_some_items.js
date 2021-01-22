@@ -3,7 +3,7 @@ const { marshall } = require('@aws-sdk/util-dynamodb');
 
 const itemCount = 10;
 
-export const migrate = async ({ client, tableName }) => {
+exports.migrate = async ({ client, tableName }) => {
   const items = [...new Array(itemCount).keys()].map((i) => ({
     PK: 'ITEM',
     SK: `ITEM#${i.toString().padStart(4, '0')}`,
@@ -18,7 +18,7 @@ export const migrate = async ({ client, tableName }) => {
   await client.send(cmd);
 };
 
-export const rollback = async ({ client, tableName }) => {
+exports.rollback = async ({ client, tableName }) => {
   const keys = [...new Array(itemCount).keys()].map((i) => ({
     PK: 'ITEM',
     SK: `ITEM#${i.toString().padStart(4, '0')}`
