@@ -95,13 +95,6 @@ jobs:
               --endpoint-url http://localhost:8000
       - run: cd ~/east-dynamodb && sudo npm link
       - run: npm init -y
-      - when:
-          condition:
-            equal: ["8.17", << parameters.node_version >>]
-          steps:
-            - run:
-                name: Fix cache for Node 8
-                command: sudo chown -R $UID:$UID ~/.npm
       - run: "npm install 'east' '@aws-sdk/client-dynamodb@^3.3.0' '@aws-sdk/util-dynamodb@^3.3.0'"
       - run: npm link east-dynamodb
       - run: cp ~/east-dynamodb/.circleci/.eastrc ./.eastrc && cp -R ~/east-dynamodb/tests/migrations_default ./migrations
@@ -131,7 +124,7 @@ workflows:
             - build
           matrix:
             parameters:
-              node_version: ["8.17", "10.23", "12.20", "14.15", "15.6"]
+              node_version: ["10.23", "12.20", "14.15", "15.6"]
       - publish:
           requires:
             - test-e2e
