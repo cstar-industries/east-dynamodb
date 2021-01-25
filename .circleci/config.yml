@@ -141,5 +141,7 @@ workflows:
           requires:
             - test-e2e
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /v\d+\.\d+\.\d+.*/
