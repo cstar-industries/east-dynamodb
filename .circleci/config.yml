@@ -59,9 +59,13 @@ jobs:
           paths:
             - "*"
   test-e2e:
+    parameters:
+      node_version:
+        type: string
+        default: "14.15"
     executor:
       name: node/default
-      tag: << matrix.node_version >>
+      tag: << parameters.node_version >>
     working_directory: ~/e2e
     environment:
       AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
