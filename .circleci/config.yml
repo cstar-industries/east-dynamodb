@@ -124,6 +124,8 @@ jobs:
       - prepare-e2e
       - run: git clone https://github.com/okv/east ~/east
       - run: cp ~/east-dynamodb/.circleci/.eastrc ./.eastrc
+      - run: npm ci
+      - run: npm link east-dynamodb
       - run:
           name: Run east test suite
           command: NODE_EAST_TEST_LOAD_CONFIG=1 npm run testSpecified test/01-migrator -- --jobs=1
