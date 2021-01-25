@@ -178,6 +178,7 @@ workflows:
       - publish:
           requires:
             - test-e2e
+            - test-east
           filters:
             branches:
               ignore: /.*/
