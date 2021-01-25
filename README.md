@@ -48,7 +48,7 @@ is `PK` and _sort key_ is `SK`.
 
 ### Configuration reference
 
-```json
+```jsonc
 {
   // Required. Tell east to use DynamoDB adapter.
   "adapter": "east-dynamodb",
