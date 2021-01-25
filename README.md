@@ -1,5 +1,10 @@
 # east dynamodb
 
+![npm](https://img.shields.io/npm/v/east-dynamodb?style=for-the-badge)
+![node-current](https://img.shields.io/node/v/east-dynamodb?style=for-the-badge)
+![NPM](https://img.shields.io/npm/l/east-dynamodb?style=for-the-badge)
+![CircleCI](https://img.shields.io/circleci/build/github/cstar-industries/east-dynamodb?style=for-the-badge)
+
 AWS DynamoDB adapter for [`east`](https://github.com/okv/east) migration tool.
 
 `east-dynamodb` relies on [AWS SDK for JavaScript v3](https://github.com/aws/aws-sdk-js-v3).
