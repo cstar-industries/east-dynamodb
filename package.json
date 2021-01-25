@@ -1,7 +1,7 @@
 {
   "name": "east-dynamodb",
   "version": "1.0.0",
-  "description": "AWS DynamoDB adpater for east migration tool",
+  "description": "AWS DynamoDB adapter for east migration tool",
   "main": "dist/index.js",
   "files": [
     "dist",
