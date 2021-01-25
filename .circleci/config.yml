@@ -121,3 +121,6 @@ workflows:
       - publish:
           requires:
             - test-e2e
+          filters:
+            tags:
+              only: /v\d+\.\d+\.\d+.*/
