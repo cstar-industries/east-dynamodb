@@ -7,6 +7,9 @@
     "dist",
     "lib"
   ],
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
     "lint": "eslint --max-warnings=0 .",
     "test": "jest",
