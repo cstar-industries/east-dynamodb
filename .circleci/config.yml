@@ -113,18 +113,30 @@ jobs:
 workflows:
   workflow:
     jobs:
-      - lint
-      - test-unit
+      - lint:
+          filters:
+            tags:
+              only: /.*/
+      - test-unit:
+          filters:
+            tags:
+              only: /.*/
       - build:
           requires:
             - lint
             - test-unit
+          filters:
+            tags:
+              only: /.*/
       - test-e2e:
           requires:
             - build
           matrix:
             parameters:
               node_version: ["10.23", "12.20", "14.15", "15.6"]
+          filters:
+            tags:
+              only: /.*/
       - publish:
           requires:
             - test-e2e
